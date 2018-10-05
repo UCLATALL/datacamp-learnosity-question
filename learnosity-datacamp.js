@@ -1,6 +1,6 @@
 LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 	const dataCampScriptTag = `<script type="text/javascript" src="//cdn.datacamp.com/dcl-react.js.gz"></script>`;
-	const dataCampHTML = `
+	const getDataCampHTML = (extraPreExerciseCode, extraSampleCode) => `
 		<div data-datacamp-exercise data-lang="r" data-height="350" data-show-run-button = TRUE>
 			<code data-type="pre-exercise-code">
 				require(mosaic)
@@ -15,8 +15,10 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 				TipExperiment <- supernova::TipExperiment
 				MindsetMatters <- Lock5Data::MindsetMatters
 				HappyPlanetIndex <- Lock5Data::HappyPlanetIndex
+				${extraPreExerciseCode}
 			</code>
 			<code data-type="sample-code">    
+				${extraSampleCode}
 			</code>
 			<code data-type="solution">   
 			</code>
@@ -27,7 +29,7 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 	`;
 
     function DataCampFeature(init) {
-		init.$el.html(dataCampHTML);
+		init.$el.html(getDataCampHTML(init.feature.extraPreExerciseCode || '', init.feature.extraSampleCode || ''));
 		init.$el.append(dataCampScriptTag);
 
 		init.events.trigger('ready');
