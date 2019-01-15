@@ -1,5 +1,5 @@
 LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
-	const dataCampScriptTag = `<script type="text/javascript" src="//cdn.datacamp.com/dcl-react.js.gz"></script>`;
+	const dataCampScriptURL = '//cdn.datacamp.com/dcl-react.js.gz';
 	const getDataCampHTML = (extraPreExerciseCode, extraSampleCode) => `
 		<div data-datacamp-exercise data-lang="r" data-height="350" data-show-run-button = TRUE>
 			<code data-type="pre-exercise-code">
@@ -27,13 +27,26 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 			<div data-type="hint">Try any code you like!</div>
 		</div>
 	`;
-
-    function DataCampFeature(init) {
+		
+	function DataCampFeature(init) {
 		init.$el.html(getDataCampHTML(init.feature.extraPreExerciseCode || '', init.feature.extraSampleCode || ''));
-		init.$el.append(dataCampScriptTag);
 
-		init.events.trigger('ready');
-    }
+		// only load the DCL script once, because double-loading it breaks them
+		// we check for the global initAddedDCLightExercises function to determine if DCL is already loaded
+		var dclAlreadyLoaded = (typeof window.initAddedDCLightExercises === 'function');
 
-    return { Feature: DataCampFeature };
+		if (dclAlreadyLoaded) {
+			// initialize the new DCL exercises added
+			window.initAddedDCLightExercises();
+			init.events.trigger('ready');
+		} else {
+			return $.getScript(dataCampScriptURL)
+				.done(function() {
+					init.events.trigger('ready');
+				});
+		}
+		
+	}
+
+	return { Feature: DataCampFeature };
 });
