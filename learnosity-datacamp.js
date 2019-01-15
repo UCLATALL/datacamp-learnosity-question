@@ -43,7 +43,7 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 				cache: true,
 				url: dataCampScriptURL
 			}).done(function(script) {
-				console.log('Loaded DataCamp script', script);
+				console.log('Loaded DataCamp script: ', script);
 				init.events.trigger('ready');
 			});
 		}
