@@ -1,0 +1,27 @@
+{
+  "name": "datacamp-learnosity-question",
+  "version": "1.0.0",
+  "description": "Learnosity custom feature to display a DataCamp Light editor",
+  "main": "learnosity-datacamp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cstigler/datacamp-learnosity-question.git"
+  },
+  "keywords": [
+    "datacamp",
+    "learnosity",
+    "statistics",
+    "education",
+    "learning",
+    "assessment"
+  ],
+  "author": "Charlie Stigler <charlie@charliestigler.com> (http://charliestigler.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cstigler/datacamp-learnosity-question/issues"
+  },
+  "homepage": "https://github.com/cstigler/datacamp-learnosity-question#readme"
+}
