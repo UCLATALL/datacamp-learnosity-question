@@ -1,5 +1,5 @@
 LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
-	const dataCampScriptTag = `<script type="text/javascript" src="//cdn.datacamp.com/dcl-react.js.gz"></script>`;
+	const dataCampScriptURL = '//cdn.datacamp.com/dcl-react.js.gz';
 	const getDataCampHTML = (extraPreExerciseCode, extraSampleCode) => `
 		<div data-datacamp-exercise data-lang="r" data-height="350" data-show-run-button = TRUE>
 			<code data-type="pre-exercise-code">
@@ -31,8 +31,23 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
     function DataCampFeature(init) {
 		init.$el.html(getDataCampHTML(init.feature.extraPreExerciseCode || '', init.feature.extraSampleCode || ''));
 		init.$el.append(dataCampScriptTag);
-
-		init.events.trigger('ready');
+	    
+	    	// only load the DCL script once because double-loading it breaks them
+	    	var dclAlreadyLoaded = !!($(`script[src*="${dataCampScriptURL}"]`).length);
+	    	console.log('DCL already loaded?', dclAlreadyLoaded);
+	    
+	    	if (dclAlreadyLoaded) {
+			init.events.trigger('ready');
+		} else {
+			return $.ajax({
+				dataType: 'script',
+				cache: true,
+				url: dataCampScriptURL
+			}).done(function(script) {
+				console.log('Loaded DataCamp script', script);
+				init.events.trigger('ready');
+			});
+		}
     }
 
     return { Feature: DataCampFeature };
