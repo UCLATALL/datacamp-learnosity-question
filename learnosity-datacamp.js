@@ -34,7 +34,6 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 		// only load the DCL script once, because double-loading it breaks them
 		// we check for the global initAddedDCLightExercises function to determine if DCL is already loaded
 		var dclAlreadyLoaded = (typeof window.initAddedDCLightExercises === 'function');
-		console.log('DCL already loaded?', dclAlreadyLoaded);
 
 		if (dclAlreadyLoaded) {
 			// initialize the new DCL exercises added
