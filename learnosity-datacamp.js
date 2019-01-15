@@ -30,7 +30,6 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 
     function DataCampFeature(init) {
 		init.$el.html(getDataCampHTML(init.feature.extraPreExerciseCode || '', init.feature.extraSampleCode || ''));
-		init.$el.append(dataCampScriptTag);
 	    
 	    	// only load the DCL script once because double-loading it breaks them
 	    	var dclAlreadyLoaded = !!($(`script[src*="${dataCampScriptURL}"]`).length);
