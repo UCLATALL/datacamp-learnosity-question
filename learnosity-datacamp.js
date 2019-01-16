@@ -27,22 +27,44 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 			<div data-type="hint">Try any code you like!</div>
 		</div>
 	`;
-		
+	
+	// lock to make sure we don't start loading the script from multiple instances at the same time
+	let loadingDCLScript = false;
+
 	function DataCampFeature(init) {
 		init.$el.html(getDataCampHTML(init.feature.extraPreExerciseCode || '', init.feature.extraSampleCode || ''));
 
 		// only load the DCL script once, because double-loading it breaks them
 		// we check for the global initAddedDCLightExercises function to determine if DCL is already loaded
-		var dclAlreadyLoaded = (typeof window.initAddedDCLightExercises === 'function');
+		let dclAlreadyLoaded = (typeof window.initAddedDCLightExercises === 'function');
 
 		if (dclAlreadyLoaded) {
-			// initialize the new DCL exercises added
+			// DCL already loaded, so just initialize the new exercises added
 			window.initAddedDCLightExercises();
 			init.events.trigger('ready');
+		} else if (loadingDCLScript) {
+			// somebody else is grabbing DCL, we can just chill
+			init.events.trigger('ready');
 		} else {
-			return $.getScript(dataCampScriptURL)
-				.done(function() {
-					init.events.trigger('ready');
+			// fetch the script if we're not already doing so (and lock so other instances don't try also)
+			loadingDCLScript = true;
+
+			// caching is A-OK with us - we only _want_ to load the script once anyway
+			return $.ajax({
+					dataType: 'script',
+					cache: true,
+					url: dataCampScriptURL,
+					success: function() {
+						console.log('Loaded DataCamp Light script sucessfully!');
+						init.events.trigger('ready');
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						console.log('Error loading DataCamp Light script: ', textStatus, errorThrown);
+					},
+					complete: function() {
+						// whether we succeeded or failed, we're not trying anymore
+						loadingDCLScript = false;
+					}
 				});
 		}
 		
