@@ -1,5 +1,5 @@
 LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
-	const dataCampScriptURL = '//cdn.jsdelivr.net/gh/UCLATALL/datacamp-light@build/dist/dcl-react.js.gz';
+	const dataCampScriptURL = '//cdn.jsdelivr.net/gh/UCLATALL/datacamp-light@build/dist/dcl-react.js';
 	const getDataCampHTML = (extraPreExerciseCode, extraSampleCode) => `
 		<div data-datacamp-exercise data-lang="r" data-height="350" data-show-run-button="true" data-show-solution-before="false" data-no-lazy-load="true">
 			<code data-type="pre-exercise-code">
