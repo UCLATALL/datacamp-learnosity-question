@@ -24,7 +24,6 @@ LearnosityAmd.define(["jquery-v1.10.2"], function ($) {
 			</code>
 			<code data-type="sct">  
 			</code>
-			<div data-type="hint">Try any code you like!</div>
 		</div>
 	`;
 	
